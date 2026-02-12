@@ -83,8 +83,14 @@ transition: all 0.1s ease;
 #success-message { display: none; }
 </style>
 </head>
-<body>
+<body oneclick="startEverything()">
 
+<div id="overlay">
+<div style="font-size: 80px:">🎁</div>
+<h2>You have a surprise! Nisha Sharma</h2>
+<p>Tap to open</p>
+</div>
+  
 <audio id="bgMusic" loop preload="auto">
 <source src="snowman.mp3"type="audio/mpeg">
 </audio>
@@ -166,6 +172,7 @@ noBtn.style.left = (rect.right + 20) + 'px';
 </script>
 </body>
 </html>
+
 
 
 
