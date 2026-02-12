@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>A Special Question ❤️</title>
+<style>
+body {
+margin: 0;
+padding: 0;
+display: flex;
+justify-content: center;
+align-items: center;
+height: 100vh;
+background-color: #fff0f3;
+font-family: 'Arial', sans-serif;
+overflow: hidden;
+touch-action: manipulation;
+}
+
+/* Floating Hearts Animation */
+.heart-particle {
+position: absolute;
+color: #ff4b6e;
+font-size: 20px;
+user-select: none;
+pointer-events: none;
+animation: floatUp 4s linear forwards;
+}
+
+@keyframes floatUp {
+0% { transform: translateY(100vh) rotate(0deg); opacity: 1; }
+100% { transform: translateY(-10vh) rotate(360deg); opacity: 0; }
+}
+
+.card {
+background: rgba(255, 255, 255, 0.9);
+padding: 2rem;
+border-radius: 30px;
+box-shadow: 0 10px 30px rgba(255, 75, 110, 0.2);
+text-align: center;
+width: 85%;
+max-width: 350px;
+position: relative;
+z-index: 100;
+}
+
+.emoji-container { font-size: 60px; margin-bottom: 10px; }
+h1 { color: #ff4b6e; font-size: 1.8rem; }
+
+.btn-container {
+display: flex;
+justify-content: center;
+align-items: center;
+gap: 20px;
+margin-top: 30px;
+min-height: 120px;
+}
+
+button {
+padding: 12px 25px;
+font-size: 1.1rem;
+border: none;
+border-radius: 50px;
+cursor: pointer;
+font-weight: bold;
+}
+
+#yesBtn {
+background-color: #ff4b6e;
+color: white;
+transition: transform 0.2s ease;
+}
+
+#noBtn {
+background-color: #ffb3c1;
+color: white;
+position: fixed;
+z-index: 999;
+transition: all 0.1s ease;
+}
+
+#success-message { display: none; }
+</style>
+</head>
+<body>
+
+<audio id="bgMusic" loop>
+<source src="https://drive.google.com/file/d/12kLH4HfKFCkgnArqTtX33WHwmWwnDdER/preview=drivesdk" type="audio/mpeg">
+</audio>
+
+<div class="card" id="mainCard">
+<div id="prompt-content">
+<div class="emoji-container">🌼</div>
+<h1>Will you be my Valentine? Madhu</h1>
+<div class="btn-container">
+<button id="yesBtn" onclick="celebrate()">Yes</button>
+<button id="noBtn" onmouseover="moveButton()" ontouchstart="moveButton(event)">No</button>
+</div>
+</div>
+
+<div id="success-message">
+<div class="emoji-container">💖</div>
+<h1>Yay! Best day ever!</h1>
+<p style="color: #ff4b6e;">I Adore You! 🥰</p>
+</div>
+</div>
+
+<script>
+const noBtn = document.getElementById('noBtn');
+const yesBtn = document.getElementById('yesBtn');
+const music = document.getElementById('bgMusic');
+let yesSize = 1;
+let musicStarted = false;
+
+function startMusic() {
+if (!musicStarted) {
+music.play().catch(e => console.log("Audio play blocked until click"));
+musicStarted = true;
+}
+}
+
+function createHeart() {
+const heart = document.createElement('div');
+heart.innerHTML = '❤️';
+heart.classList.add('heart-particle');
+heart.style.left = Math.random() * 100 + 'vw';
+heart.style.animationDuration = (Math.random() * 3 + 2) + 's';
+document.body.appendChild(heart);
+setTimeout(() => heart.remove(), 4000);
+}
+
+// Create background hearts continuously
+setInterval(createHeart, 300);
+
+function moveButton(event) {
+if(event) event.preventDefault();
+startMusic();
+
+const maxX = window.innerWidth - noBtn.offsetWidth - 20;
+const maxY = window.innerHeight - noBtn.offsetHeight - 20;
+
+noBtn.style.left = Math.random() * maxX + 'px';
+noBtn.style.top = Math.random() * maxY + 'px';
+
+yesSize += 0.2;
+yesBtn.style.transform = `scale(${yesSize})`;
+}
+
+function celebrate() {
+startMusic();
+document.getElementById('prompt-content').style.display = 'none';
+document.getElementById('success-message').style.display = 'block';
+document.body.style.backgroundColor = '#ffccd5';
+noBtn.style.display = 'none';
+
+// Shower of extra hearts
+for(let i=0; i<20; i++) setTimeout(createHeart, i*100);
+}
+
+window.onload = () => {
+const rect = yesBtn.getBoundingClientRect();
+noBtn.style.top = rect.top + 'px';
+noBtn.style.left = (rect.right + 20) + 'px';
+};
+</script>
+</body>
+</html>
